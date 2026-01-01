@@ -1,0 +1,21 @@
+
+# FVM Version Cache
+.fvm/
+
+/livrable
+/build/
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+.idea/
+.vs/
+*.iml
+*.ipr
+*.iws
+*.aux
+*.log
+*.out
+*.toc
+*.nav
+
