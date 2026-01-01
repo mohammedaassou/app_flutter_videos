@@ -1,169 +1,168 @@
-\documentclass[11pt,a4paper]{article}
+% Rapport de projet Flutter (en français)
+\documentclass[12pt,a4paper]{report}
 
-	itle{Flutter Project Exam\\\large Mini CV \& Video Search App}
+% Encodage et langue
+\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{lmodern}
+\usepackage[french]{babel}
+
+% Mise en page et visuels
+\usepackage{geometry}
+\geometry{margin=2.5cm}
 \usepackage{graphicx}
-\usepackage{hyperref}
 \usepackage{xcolor}
-\usepackage{listings}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue}
+\usepackage{enumitem}
 
-\hypersetup{
-  colorlinks=true,
-  linkcolor=blue,
-  urlcolor=blue,
-  citecolor=blue
-}
-
-\author{Mohamed Aassou\\Supervisor: Prof. Ayad}
-\date{\today}
-
-\lstset{
-  basicstyle=\ttfamily\small,
-  breaklines=true,
-  frame=single,
-  rulecolor=\color{black!15},
-  columns=fullflexible
-}
+% En-têtes/pieds de page
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Rapport de projet Flutter}
+\rhead{Université Mundiapolis}
+\cfoot{\thepage}
 
 \begin{document}
 
-\maketitle
+% Page de garde
+\begin{titlepage}
+  \centering
+  \vspace*{1cm}
+  % Logo Mundiapolis (présent dans le dossier demo)
+  \includegraphics[width=0.6\textwidth]{../demo/logo_mundia.png}\\[0.8cm]
 
-\begin{abstract}
-This document is a short technical report (\textit{rapport}) for a Flutter application that combines a mini CV/portfolio UI with API-driven features: a video search experience and a GitHub repositories list. The goal is to demonstrate UI composition, navigation, simple animations, and REST API integration in Flutter.
-\end{abstract}
+  {\Huge \textbf{Mini CV + App Flutter pilotée par API}}\\[0.6cm]
+  {\Large \textbf{Rapport de projet}}\\[1.2cm]
+
+  \begin{tabular}{rl}
+    \textbf{Université :} & Université Mundiapolis \\
+    \textbf{Encadrant :} & Prof. Ayad \\
+    \textbf{Étudiant :} & \textit{Mohamed AASSOU} \\
+    \textbf{Filière :} & \textit{2ANCI - Génie Informatiquee} \\
+    \textbf{Année :} & 2026 \\
+  \end{tabular}
+
+  \vfill
+  \large Casablanca, Maroc\\[0.3cm]
+  \today
+\end{titlepage}
 
 \tableofcontents
+\newpage
 
-\section{Project Overview}
-\subsection{Objective}
-The application showcases:
-\begin{itemize}
-  \item A portfolio-style home screen (mini CV).
-  \item A video search feature backed by a public video API.
-  \item A GitHub repositories list powered by the GitHub REST API.
-  \item A simple profile/settings UI.
+\chapter{Introduction}
+Ce rapport présente une application Flutter démonstrative combinant un \textit{mini CV} et des fonctionnalités connectées à des APIs publiques. L'application offre une navigation par onglets (\textit{bottom navigation}) pour explorer :
+\begin{itemize}[leftmargin=1.2cm]
+  \item \textbf{Accueil} : page de portfolio avec animations légères.
+  \item \textbf{Recherche Vidéo} : recherche et lecture de vidéos depuis l'API \textit{Pixabay Video}.
+  \item \textbf{Dépôts GitHub} : liste des dépôts publics de l'utilisateur \texttt{mohammedaassou}.
+  \item \textbf{Profil} : page de profil à onglets (\textit{About / Settings / Links}).
 \end{itemize}
 
-\subsection{Main Screens}
-The app uses a bottom navigation bar with four tabs:
-\begin{enumerate}
-  \item \textbf{Home}: profile image + skills + projects.
-  \item \textbf{Video Search}: query input, results list, and navigation to details.
-  \item \textbf{GitHub Repos}: fetch and display public repositories for a user.
-  \item \textbf{Profile}: tabbed interface (About / Settings / Links).
+Les objectifs pédagogiques incluent la manipulation de widgets Flutter, l'appel à des services REST, la structuration d'un projet, et l'intégration de médias (vidéo) et animations.
+
+\chapter{Aperçu de l'application}
+L'entrée de l'application se situe dans \texttt{lib/main.dart}. La navigation principale (\textit{CurvedNavigationBar}) est gérée dans \texttt{lib/principale\_page.dart}. Les différentes vues sont placées dans \texttt{lib/pages/} et les modèles/clients HTTP dans \texttt{lib/models/} et \texttt{lib/services/}.
+
+\section{Onglets et fonctionnalités}
+\begin{itemize}[leftmargin=1.2cm]
+  \item \textbf{Accueil} (\texttt{home\_page.dart}) : mini CV (compétences, projets) avec transitions \texttt{animations}.
+  \item \textbf{Recherche Vidéo} (\texttt{video\_search\_page.dart}) : champ de recherche, liste des résultats, navigation vers \texttt{video\_detail\_page.dart} pour la lecture via \texttt{video\_player}.
+  \item \textbf{Dépôts GitHub} (\texttt{repos\_page.dart}) : récupération des dépôts publics via \texttt{github\_api.dart} et affichage (nom, description, langue, etc.).
+  \item \textbf{Profil} (\texttt{profile\_page.dart}) : onglets \textit{About}, \textit{Settings}, \textit{Links}.
+\end{itemize}
+
+\chapter{Architecture et technologies}
+\section{Organisation du projet}
+\begin{itemize}[leftmargin=1.2cm]
+  \item \texttt{lib/main.dart} : point d'entrée; configuration de thème et routes.
+  \item \texttt{lib/principale\_page.dart} : barre de navigation et routing par onglets.
+  \item \texttt{lib/services/} : clients HTTP (GitHub, Pixabay). Utilise le package \texttt{http}.
+  \item \texttt{lib/models/} : modèles de données pour la désérialisation JSON.
+  \item \texttt{lib/widgets/} : composants réutilisables (drawer, animations \texttt{staggered\_fade\_scale}).
+\end{itemize}
+
+\section{Dépendances principales}
+Extrait depuis \texttt{pubspec.yaml} :
+\begin{itemize}[leftmargin=1.2cm]
+  \item \texttt{http} : appels REST.
+  \item \texttt{video\_player} : lecture vidéo native.
+  \item \texttt{animations} : transitions Material motion.
+  \item \texttt{curved\_navigation\_bar} : barre de navigation inférieure.
+\end{itemize}
+
+\chapter{Configuration des APIs}
+\section{Pixabay Video}
+\begin{itemize}[leftmargin=1.2cm]
+  \item Base : \url{https://pixabay.com/api/videos}
+  \item Clé API : stockée dans \texttt{lib/env.dart} (champ \texttt{pexelsApiKey} ; certains libellés UI mentionnent encore \textit{Pexels}, mais l'implémentation est bien sur \textit{Pixabay}).
+\end{itemize}
+
+\section{GitHub}
+\begin{itemize}[leftmargin=1.2cm]
+  \item Endpoint : \url{https://api.github.com/users/mohammedaassou/repos}
+  \item Authentification : non requise pour les requêtes publiques de base.
+\end{itemize}
+
+\chapter{Interfaces et captures d'écran}
+Les captures suivantes illustrent les écrans clefs de l'application.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.92\textwidth]{../demo/1-homepage-minicv.png}
+  \caption{Accueil — Mini CV avec animations}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.92\textwidth]{../demo/2-videos-tab.png}
+  \caption{Onglet Recherche Vidéo}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.92\textwidth]{../demo/3-view-video.png}
+  \caption{Lecture vidéo (\texttt{video\_player})}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.92\textwidth]{../demo/4-repos.png}
+  \caption{Liste des dépôts GitHub}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.92\textwidth]{../demo/5-profile.png}
+  \caption{Page Profil (onglets)}
+\end{figure}
+
+\chapter{Installation et exécution}
+\section{Prérequis}
+\begin{itemize}[leftmargin=1.2cm]
+  \item Flutter SDK (Dart géré par Flutter).
+  \item Un appareil ou émulateur (Android Studio / Xcode / iOS Simulator).
+\end{itemize}
+
+\section{Démarrage}
+Depuis la racine du projet :
+\begin{enumerate}[leftmargin=1.2cm]
+  \item Installation des dépendances : \texttt{flutter pub get}
+  \item Lancement de l'application : \texttt{flutter run}
 \end{enumerate}
 
-\section{Technology Stack}
-\begin{itemize}
-  \item \textbf{Flutter/Dart}: UI framework and language.
-  \item \textbf{HTTP}: REST calls via the \texttt{http} package.
-  \item \textbf{Video playback}: \texttt{video\_player}.
-  \item \textbf{Animations}: \texttt{animations} (Material motion) + custom staggered transitions.
-  \item \textbf{Navigation}: \texttt{curved\_navigation\_bar} for bottom navigation.
-\end{itemize}
+\chapter{Tests et qualité}
+Des tests de widget de base sont fournis (\texttt{test/widget\_test.dart}). L'application met l'accent sur une architecture claire, la séparation des responsabilités (services, modèles, vues) et l'utilisation de composants réutilisables.
 
-\section{Architecture and Code Organization}
-The codebase is organized by responsibility:
-\begin{itemize}
-  \item \texttt{lib/models/}: data models (e.g. GitHub repo and video objects).
-  \item \texttt{lib/services/}: thin API clients for HTTP calls.
-  \item \texttt{lib/*.dart}: screens/pages and UI widgets.
-  \item \texttt{assets/}: images and fonts.
-\end{itemize}
+\chapter{Conclusion}
+Ce projet illustre une application Flutter moderne intégrant des APIs externes, des animations et des médias. Il constitue une base pédagogique pour approfondir la gestion d'état, l'architecture modulaire, l'optimisation des performances et le déploiement multiplateforme.
 
-This project primarily uses \texttt{FutureBuilder} for async UI updates (no additional state management framework).
-
-\section{API Integration}
-\subsection{Video Search API}
-The current implementation calls Pixabay's video API endpoint:
-\begin{quote}
-\url{https://pixabay.com/api/videos}
-\end{quote}
-The API key and base URL are configured in \texttt{lib/env.dart}.
-
-\subsection{GitHub Repositories API}
-The GitHub repositories tab requests public repositories via:
-\begin{quote}
-\url{https://api.github.com/users/mohammedaassou/repos}
-\end{quote}
-It parses the response into a \texttt{GitHubRepo} model and renders a list with basic repo metadata (stars, forks, language, and last update date when available).
-
-\section{UI and Interaction Details}
-\subsection{Transitions and Animations}
-The app uses:
-\begin{itemize}
-  \item Staggered fade/scale for list items (helper widget in \texttt{lib/widgets/staggered\_fade\_scale.dart}).
-  \item Fade-through transitions when opening a video item (Material motion \texttt{OpenContainer}).
-\end{itemize}
-
-\subsection{Video Details and Playback}
-The video details page initializes a network video controller, starts playback, and provides a tap-to-play/pause overlay.
-
-\section{Build and Run}
-\subsection{Run the Flutter app}
-From the project root:
-\begin{lstlisting}
-flutter pub get
-flutter run
-\end{lstlisting}
-
-\subsection{Build this report (PDF)}
-From the \texttt{report/} directory:
-\begin{lstlisting}
-pdflatex rapport.tex
-\end{lstlisting}
-Run \texttt{pdflatex} twice if you want the table of contents to update.
-
-\section{Assets}
-A profile image is included as an app asset:
-\begin{quote}
-\texttt{assets/mohamed.png}
-\end{quote}
-If you want to include it in this report (optional), you can uncomment the figure below.
-
-% \begin{figure}[h]
-%   \centering
-%   \includegraphics[width=0.25\textwidth]{../assets/mohamed.png}
-%   \caption{Profile image asset used by the app.}
-% \end{figure}
-
-\section{Screenshots}
-The following screenshots are stored in the \texttt{demo/} folder and document the main screens of the application.
-
-\clearpage
-
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=0.32\textwidth]{../demo/1-homepage-minicv.png}
-  \hfill
-  \includegraphics[width=0.32\textwidth]{../demo/2-videos-tab.png}
-  \hfill
-  \includegraphics[width=0.32\textwidth]{../demo/3-view-video.png}
-  \caption{Home (Mini CV), Video Search, and Video Details.}
-\end{figure}
-
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=0.32\textwidth]{../demo/4-repos.png}
-  \hfill
-  \includegraphics[width=0.32\textwidth]{../demo/5-profile.png}
-  \caption{GitHub Repos and Profile tabs.}
-\end{figure}
-
-\section{Limitations and Improvements}
-\begin{itemize}
-  \item The UI mentions “Pexels” in a few places, while the current API endpoint is Pixabay.
-  \item Error handling is functional (retry + message), but could be improved with richer empty/error states.
-  \item A dedicated state management solution (Provider/Riverpod/Bloc) could be introduced if the app grows.
-\end{itemize}
-
-\section{References}
-\begin{itemize}
-  \item Flutter documentation: \url{https://docs.flutter.dev/}
-  \item GitHub REST API: \url{https://docs.github.com/en/rest}
-  \item Pixabay API (Videos): \url{https://pixabay.com/api/docs/}
+\section*{Travaux futurs}
+\begin{itemize}[leftmargin=1.2cm]
+  \item Internationalisation complète (i18n) et uniformisation des libellés.
+  \item Ajout de pagination et de mise en cache pour les listes.
+  \item Intégration de thèmes (clair/sombre) et accessibilité.
 \end{itemize}
 
 \end{document}
