@@ -4,6 +4,10 @@ Mini CV + API-driven Flutter demo app.
 
 Supervisor: **Prof. Ayad**
 
+<video src="demo/demo.mp4" autoplay muted loop controls width="720"></video>
+
+If the embedded video does not render in your viewer, use the direct link: [demo/demo.mp4](demo/demo.mp4)
+
 The app has a bottom navigation with 4 tabs:
 
 - **Home**: portfolio landing page (skills + projects) with small animations.
@@ -71,6 +75,8 @@ No key is required for basic public requests.
 | GitHub Repos | Profile |
 |---|---|
 | ![Repos](demo/4-repos.png) | ![Profile](demo/5-profile.png) |
+
+ 
 
 ## Dependencies
 

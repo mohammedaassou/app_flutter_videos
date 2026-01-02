@@ -4,11 +4,6 @@ import 'package:http/http.dart' as http;
 
 import '../models/github_repo.dart';
 
-/// Thin API client for GitHub repos.
-///
-/// Architecture matches your app:
-/// - `models/` contains the data classes
-/// - `services/` contains simple HTTP calls (no Provider/state libs)
 class GitHubServiceApi {
   static const String _baseUrl = 'https://api.github.com';
 
@@ -18,10 +13,7 @@ class GitHubServiceApi {
 
     final response = await http.get(
       url,
-      headers: {
-        // GitHub recommends setting this header.
-        'Accept': 'application/vnd.github+json',
-      },
+      headers: {'Accept': 'application/vnd.github+json'},
     );
 
     if (response.statusCode != 200) {
